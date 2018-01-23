@@ -1,9 +1,11 @@
 source 'https://rubygems.org'
 
+# rubocop:disable Bundler/OrderedGems
 group :vagrant do
   gem 'vagrant-wrapper'
   gem 'kitchen-vagrant'
 end
+# rubocop:enable Bundler/OrderedGems
 
 group :docker do
   gem 'kitchen-docker'
