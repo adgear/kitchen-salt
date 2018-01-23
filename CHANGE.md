@@ -1,3 +1,11 @@
+## patch
+
+* Provide a CI script for validating `CHANGES.md`
+* Provide a CI script to automate releases
+* Refactor `.travis.yml` to allow for the new CI suites
+* Refactor `CHANGES.md` to be readable by the new CI scripts
+* Makes an automated correction pass with Rubocop
+
 ## v0.2.0
 
 * Adds support for PowerShell 2.0
