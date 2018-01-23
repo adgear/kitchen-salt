@@ -221,7 +221,7 @@ module Kitchen
 
         cmd = ''
         if windows_os?
-          salt_call = "c:\\salt\\salt-call.bat"
+          salt_call = 'c:\\salt\\salt-call.bat'
           salt_config_path = config[:salt_config].tr('/', '\\')
           cmd << "(get-content #{File.join(config[:root_path], salt_config_path, 'minion').tr('/', '\\')}) -replace '\\$env:TEMP', $env:TEMP | set-content #{File.join(config[:root_path], salt_config_path, 'minion').tr('/', '\\')} ;"
         else
@@ -377,7 +377,7 @@ module Kitchen
         end
 
         # upload scripts
-        %w[formula-fetch.sh repository-setup.sh].each do |script|
+        %w(formula-fetch.sh repository-setup.sh).each do |script|
           write_raw_file(File.join(sandbox_path, script), File.read(File.expand_path("../#{script}", __FILE__)))
         end
         dependencies_script = File.expand_path('./../dependencies.erb', __FILE__)

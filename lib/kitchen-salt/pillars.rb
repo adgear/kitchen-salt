@@ -30,7 +30,7 @@ module Kitchen
         debug("Pillars Hash: #{pillars}")
 
         if pillars.nil? && pillars_from_files.nil?
-          if not config[:local_salt_root].nil?
+          unless config[:local_salt_root].nil?
             pillars_location = File.join(config[:local_salt_root], 'pillar')
             sandbox_pillar_path = File.join(sandbox_path, config[:salt_pillar_root])
             cp_r_with_filter(pillars_location, sandbox_pillar_path, config[:salt_copy_filter])

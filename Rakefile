@@ -9,33 +9,33 @@ Rake::Task.define_task(:environment)
 desc 'Run Test Kitchen integration tests'
 namespace :integration do
   desc 'Run integration tests with kitchen-docker'
-  task :verify, [:taskname] => [:environment] do |task, args|
+  task :verify, [:taskname] => [:environment] do |_task, args|
     args.with_defaults(taskname: 'all')
     require 'kitchen'
     Kitchen.logger = Kitchen.default_file_logger
     @loader = Kitchen::Loader::YAML.new(local_config: '.kitchen.docker.yml')
     Kitchen::Config.new(loader: @loader).instances.each do |instance|
-      if args.taskname == 'all' or instance.name.include?(args.taskname)
-        instance.verify()
+      if (args.taskname == 'all') || instance.name.include?(args.taskname)
+        instance.verify
       end
     end
   end
 
   desc 'destroy instances with kitchen-docker'
-  task :destroy, [:taskname] => [:environment] do |task, args|
+  task :destroy, [:taskname] => [:environment] do |_task, args|
     args.with_defaults(taskname: 'all')
     require 'kitchen'
     Kitchen.logger = Kitchen.default_file_logger
     @loader = Kitchen::Loader::YAML.new(local_config: '.kitchen.docker.yml')
     Kitchen::Config.new(loader: @loader).instances.each do |instance|
-      if args.taskname == 'all' or instance.name.include?(args.taskname)
-        instance.destroy()
+      if (args.taskname == 'all') || instance.name.include?(args.taskname)
+        instance.destroy
       end
     end
   end
 
   desc 'default task'
-  task :test, [:taskname] => [:environment] do |task, args|
+  task :test, [:taskname] => [:environment] do |_task, args|
     args.with_defaults(taskname: 'all')
     Rake::Task['integration:verify'].invoke(args.taskname)
     Rake::Task['integration:destroy'].invoke(args.taskname)
@@ -45,4 +45,4 @@ end
 desc 'Run yarddoc for the source'
 YARD::Rake::YardocTask.new
 
-task :default => ['integration:test']
+task default: ['integration:test']

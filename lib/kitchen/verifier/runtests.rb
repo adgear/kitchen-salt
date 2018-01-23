@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-require "kitchen/verifier/base"
+require 'kitchen/verifier/base'
 
 module Kitchen
   module Verifier
@@ -32,11 +32,11 @@ module Kitchen
           (config[:windows] ? "--names-file=#{root_path}\\testing\\tests\\whitelist.txt" : ''),
           (config[:transport] ? "--transport=#{config[:transport]}" : ''),
           (config[:verbose] ? '-v' : ''),
-          (config[:run_destructive] ? "--run-destructive" : ''),
+          (config[:run_destructive] ? '--run-destructive' : ''),
           (config[:coverage_xml] ? "--coverage-xml=#{config[:coverage_xml]}" : ''),
           (config[:xml] ? "--xml=#{config[:xml]}" : ''),
-          config[:types].collect{|type| "--#{type}"}.join(' '),
-          config[:tests].collect{|test| "-n #{test}"}.join(' '),
+          config[:types].collect { |type| "--#{type}" }.join(' '),
+          config[:tests].collect { |test| "-n #{test}" }.join(' ')
         ].join(' ')
         info("Running Command: #{command}")
         instance.transport.connection(state) do |conn|
