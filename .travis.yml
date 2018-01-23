@@ -16,9 +16,12 @@ rvm:
 
 env:
   matrix:
+    - SUITE=rubocop
+    - SUITE=shellcheck
     - SUITE=centos
     - SUITE=ubuntu
     - SUITE=debian
+    - SUITE=changelog
 
 sudo: true
 dist: trusty
@@ -28,11 +31,9 @@ before_install:
   - pip install --user -r test-requirements.txt
 
 script:
-  # Check shell scripts
-  - shellcheck lib/kitchen/provisioner/*.sh*
-  # Run test-kitchen with docker driver:
-  - bundle exec rake "integration:verify[$SUITE]"
+  # Enter the main test loop
+  - ./ci/scripts/test-main.sh
 
 after_script:
-  - bundle exec kitchen list $SUITE
-  - bundle exec rake "integration:destroy[$SUITE]"
+  # Enter the cleanup loop
+  - ./ci/scripts/cleanup.rb
