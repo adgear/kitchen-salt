@@ -3,6 +3,7 @@ require 'bundler/gem_tasks'
 require 'rake'
 require 'rake/testtask'
 require 'yard'
+require 'tasks/rake/monkeypatch'
 
 Rake::Task.define_task(:environment)
 
