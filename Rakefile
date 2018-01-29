@@ -70,6 +70,11 @@ task :shellcheck do |_task, _args|
   end
 end
 
+desc 'Check the changelog for proper format'
+task :changelog do |_task, _args|
+  true # placeholder
+end
+
 desc 'Run Test Kitchen integration tests'
 namespace :integration do
 
@@ -152,7 +157,7 @@ namespace :integration do
   task :test, [:taskname] => [:environment] do |_task, args|
     args.with_defaults(taskname: 'all')
     clean_suites.each do |task|
-      Rake::Task["#{task}:main"]
+      Rake::Task[task]
     end
     Rake::Task['integration:verify'].invoke(args.taskname)
     Rake::Task['integration:destroy'].invoke(args.taskname)
