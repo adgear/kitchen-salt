@@ -1,7 +1,9 @@
 require 'bundler/setup'
 require 'bundler/gem_tasks'
+require 'mixlib/shellout'
 require 'rake'
 require 'rake/testtask'
+require 'rubocop/rake_task'
 require 'yard'
 
 Rake::Task.define_task(:environment)
@@ -33,10 +35,38 @@ namespace :travis do
   end
 end
 
+def command_available(command)
+  find = Mixlib::ShellOut.new("which #{command}").run_command
+  find.run_command
+  find.exitstatus == 0 ? true : abort("Unable to find #{command} in PATH, is it installed?")
+end
+
+def shellcheck(file)
+  shellcheck = Mixlib::ShellOut.new("shellcheck #{file}")
+  shellcheck.run_command
+  return { :stdout => shellcheck.stdout, :error => shellcheck.error? }
+end
+
 desc 'Check bash scripts'
-namespace :shellcheck do
-  desc 'Check bash scripts'
-  task :main, [:taskname] => [:environment] do |_task, args|
+task :shellcheck do |_task, _args|
+  # Collect the results from all the shellchecks
+  results = []
+  if command_available('shellcheck')
+    Dir.glob("./**/*.sh").each { |file| results << shellcheck(file) }
+  end
+
+  # This collects all the errors and prints then all instead of stopping at the
+  # first file with errors
+  unless results.empty?
+    acc = { :stdout => [], :error => false }
+    results.each do |result|
+      acc[:error] = acc[:error] || result[:error]
+      acc[:stdout] << result[:stdout]
+    end
+    if acc[:error]
+      puts acc[:stdout]
+      abort
+    end
   end
 end
 
@@ -131,5 +161,14 @@ end
 
 desc 'Run yarddoc for the source'
 YARD::Rake::YardocTask.new
+
+desc 'Run RuboCop'
+RuboCop::RakeTask.new(:rubocop) do |t|
+  t.options = %w(
+    --display-cop-names
+    --extra-details
+    --display-style-guide
+  )
+end
 
 task default: ['integration:test']
