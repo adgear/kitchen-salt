@@ -16,12 +16,12 @@ rvm:
 
 env:
   matrix:
-    - SUITE=rubocop
-    - SUITE=shellcheck
-    - SUITE=centos
-    - SUITE=ubuntu
-    - SUITE=debian
-    - SUITE=changelog
+    - SUITE="changelog:main"
+    - SUITE="integration:centos"
+    - SUITE="integration:debian"
+    - SUITE="integration:ubuntu"
+    - SUITE="rubocop:main"
+    - SUITE="shellcheck:main"
 
 sudo: true
 dist: trusty
@@ -32,8 +32,8 @@ before_install:
 
 script:
   # Enter the main test loop
-  - ./ci/scripts/test-main.sh
+  - bundle exec rake travis:main
 
 after_script:
   # Enter the cleanup loop
-  - ./ci/scripts/cleanup.rb
+  - bundle exec rake travis:cleanup
