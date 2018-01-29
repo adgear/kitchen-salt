@@ -19,10 +19,10 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'test-kitchen', '~> 1.4'
 
   spec.add_development_dependency 'coderay'
-  spec.add_development_dependency 'gem-release', '~> 0.7.3'
   spec.add_development_dependency 'git', '~> 1.3.0'
   spec.add_development_dependency 'kitchen-sync', '~> 2.2'
   spec.add_development_dependency 'maruku'
+  spec.add_development_dependency 'mixlib-shellout', '~> 2.3'
   spec.add_development_dependency 'pry', '~> 0.10.1'
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rubocop', '~> 0.47'
