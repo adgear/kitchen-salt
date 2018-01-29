@@ -88,9 +88,9 @@ namespace :integration do
     instances
   end
 
-  # Runs a test kitchen action against some instances.
+  # Runs a verify kitchen action against some instances.
   #
-  # @param action [String] kitchen action to run (defaults to `'test'`).
+  # @param action [String] kitchen action to run (defaults to `'verify'`).
   # @param regexp [String] regular expression to match against instance names.
   # @param concurrency [#to_i] number of instances to run the action against concurrently.
   # @param loader_config [Hash] loader configuration options.
