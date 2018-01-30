@@ -1,0 +1,24 @@
+# Common configuration.
+AllCops:
+  DisplayCopNames: true
+  DisplayStyleGuide: true
+  StyleGuideBaseURL: https://github.com/bbatsov/ruby-style-guide
+
+#################### Layout ###########################
+
+# Indent private/protected/public as deep as method definitions
+Layout/AccessModifierIndentation:
+  EnforcedStyle: indent
+  SupportedStyles:
+    - outdent
+    - indent
+  # By default, the indentation width from Layout/IndentationWidth is used
+  # But it can be overridden by setting this parameter
+  IndentationWidth: ~
+
+Metrics/BlockLength:
+  CountComments: false  # count full line comments?
+  Max: 50 # default 25
+
+Metrics/LineLength:
+  Max: 120 # default 80
