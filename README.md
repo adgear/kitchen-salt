@@ -11,7 +11,7 @@ on attributes in `.kitchen.yml` and calling `salt-call`.
 This provisioner is tested with kitchen-docker against CentOS, Ubuntu, and
 Debian.
 
-## Documentation and usage
+## Usage and Documentation
 
 Consult [kitchen.saltstack.com](https://kitchen.saltstack.com)
 
