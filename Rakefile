@@ -5,8 +5,9 @@ require 'rake'
 require 'rake/testtask'
 require 'rubocop/rake_task'
 require 'yard'
-require './tasks/concurrency'
+
 require './tasks/changelog'
+require './tasks/concurrency'
 
 Rake::Task.define_task(:environment)
 
