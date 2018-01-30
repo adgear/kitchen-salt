@@ -12,15 +12,13 @@ require './tasks/concurrency'
 Rake::Task.define_task(:environment)
 
 kitchen_concurrency = ENV['KITCHEN_CONCURRENCY'] || 1
-unless kitchen_concurrency.is_a?(Integer)
-  kitchen_concurrency = kitchen_concurrency.to_i
-end
+kitchen_concurrency = kitchen_concurrency.to_i unless kitchen_concurrency.is_a?(Integer)
 
-clean_suites = %w(
+clean_suites = %w[
   changelog
   rubocop
   shellcheck
-)
+]
 
 desc 'Travis tasks'
 namespace :travis do
@@ -59,9 +57,7 @@ desc 'Check bash scripts'
 task :shellcheck do |_task, _args|
   # Collect the results from all the shellchecks
   results = []
-  if command_available('shellcheck')
-    Dir.glob('./**/*.sh').each { |file| results << shellcheck(file) }
-  end
+  Dir.glob('./**/*.sh').each { |file| results << shellcheck(file) } if command_available('shellcheck')
 
   # This collects all the errors and prints then all instead of stopping at the
   # first file with errors
@@ -103,9 +99,7 @@ namespace :integration do
     Kitchen.logger = Kitchen.default_file_logger
     @loader = Kitchen::Loader::YAML.new(local_config: '.kitchen.docker.yml')
     Kitchen::Config.new(loader: @loader).instances.each do |instance|
-      if (args.taskname == 'all') || instance.name.include?(args.taskname)
-        instance.destroy
-      end
+      instance.destroy if (args.taskname == 'all') || instance.name.include?(args.taskname)
     end
   end
 
@@ -125,11 +119,13 @@ YARD::Rake::YardocTask.new
 
 desc 'Run RuboCop'
 RuboCop::RakeTask.new(:rubocop) do |t|
-  t.options = %w(
+  t.options = %w[
+    --config
+    .rubocop.yml
     --display-cop-names
     --extra-details
     --display-style-guide
-  )
+  ]
 end
 
 task default: ['integration:test']
