@@ -106,9 +106,7 @@ namespace :integration do
   desc 'default task'
   task :test, [:taskname] => [:environment] do |_task, args|
     args.with_defaults(taskname: 'all')
-    clean_suites.each do |task|
-      Rake::Task[task]
-    end
+    clean_suites.each { |task| Rake::Task[task] }
     Rake::Task['integration:verify'].invoke(args.taskname)
     Rake::Task['integration:destroy'].invoke(args.taskname)
   end
