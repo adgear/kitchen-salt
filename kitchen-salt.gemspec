@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'kitchen-sync', '~> 2.2'
   spec.add_development_dependency 'maruku'
   spec.add_development_dependency 'mixlib-shellout', '~> 2.3'
-  spec.add_development_dependency 'mixlib-versioning', '~> 1.2'
+  spec.add_development_dependency 'semver', '~> 1.0'
   spec.add_development_dependency 'pry', '~> 0.10.1'
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rubocop', '~> 0.47'
