@@ -120,8 +120,7 @@ YARD::Rake::YardocTask.new
 desc 'Run RuboCop'
 RuboCop::RakeTask.new(:rubocop) do |t|
   t.options = %w[
-    --config
-    .rubocop.yml
+    --config .rubocop.yml
     --display-cop-names
     --extra-details
     --display-style-guide
