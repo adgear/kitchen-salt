@@ -22,6 +22,7 @@ require 'kitchen-salt/pillars'
 require 'kitchen-salt/states'
 require 'kitchen-salt/util'
 require 'kitchen/provisioner/base'
+require 'pathname'
 require 'yaml'
 
 module Kitchen
@@ -66,6 +67,7 @@ module Kitchen
         salt_minion_config_template: nil,
         salt_minion_config: '/etc/salt/minion',
         salt_minion_extra_config: {},
+        salt_minion_extension_module_includes: [],
         salt_minion_id: nil,
         salt_pillar_root: '/srv/pillar',
         salt_ppa: 'ppa:saltstack/salt',
@@ -336,11 +338,33 @@ module Kitchen
         end
       end
 
+      def write_minion_extension_module(source_path, dest, origin = nil)
+        origin = Pathname.new(File.expand_path(origin)) unless origin.nil?
+        if File.directory?(source_path)
+          Dir.glob(File.join(source_path, '*')).each do |e|
+            write_minion_extension_module(e, dest, origin.nil? ? source_path : origin)
+          end
+        else
+          absolute_path = Pathname.new(File.expand_path(source_path)) || ''
+          relative      = absolute_path.relative_path_from(origin)
+
+          FileUtils.mkdir_p(File.dirname(relative))
+          data = File.read(source_path)
+          write_raw_file(File.join(dest, relative), data)
+        end
+      end
+
+      def insert_minion_extension_modules
+        dest = config[:salt_minion_extra_config]['extension_modules'] || File.join(sandbox_path, '/etc/salt/extensions')
+        config[:salt_minion_extension_module_includes].each { |e| write_minion_extension_module(e, dest) }
+      end
+
       def prepare_minion
         info('Preparing salt-minion')
         prepare_minion_base_config
         prepare_minion_extra_config if config[:salt_minion_extra_config].keys.any?
         insert_minion_config_dropins if config[:salt_minion_config_dropin_files].any?
+        insert_minion_extension_modules if config[:salt_minion_extension_module_includes].any?
       end
 
       def prepare_grains
