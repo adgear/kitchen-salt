@@ -1,0 +1,15 @@
+# Common configuration.
+AllCops:
+  DisplayCopNames: true
+  DisplayStyleGuide: true
+  StyleGuideBaseURL: https://github.com/bbatsov/ruby-style-guide
+
+Metrics/MethodLength:
+  Max: 25 # default 10
+
+Metrics/BlockLength:
+  CountComments: false  # count full line comments?
+  Max: 50 # default 25
+
+Metrics/LineLength:
+  Max: 120 # default 80
