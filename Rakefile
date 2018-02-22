@@ -1,11 +1,13 @@
 require 'bundler/setup'
 require 'bundler/gem_tasks'
+require 'git'
 require 'mixlib/shellout'
 require 'rake'
 require 'rake/testtask'
 require 'rubocop/rake_task'
 require 'yard'
 require 'tasks/rake/monkeypatch'
+require 'tasks/rake/changelog'
 
 Rake::Task.define_task(:environment)
 
